@@ -1,14 +1,18 @@
-# import glob, os
+import glob, os, easygui
 
+# call the window for selecting a folder with files
+# вызываем окно выбора папки с файлами
+input_file = easygui.diropenbox()
+print(input_file)
 
-# os.chdir("D:\lessons\pyt_n\\11 Web Scraping with Python\\")
+# os.chdir(input_file)
+
 
 # for file in glob.glob("*.srt"):
 #     print(file)
 #     print()
-
-
-# вызывает проводник виндовс без возможности выбора каталогов и папок
-# import webbrowser, os
-# path="C:/Users"
-# webbrowser.open(os.path.realpath(path))           
+for root, dirs, files in os.walk("D:\lessons\pyt_n\\11 Web Scraping with Python"):
+    print("ggggggggggggg")
+    for file in files:
+        if file.endswith(".srt"):
+             print(os.path.join(root, file))
