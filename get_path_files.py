@@ -13,8 +13,3 @@ for root, dirs, files in os.walk(input_file):
         if name.endswith(".srt"):
             # print(os.path.join(root, name))
             _path = os.path.join(root, name)
-            # open file for read
-            with open(_path, 'r') as f:
-                for line in f:
-                    print(line.strip('\n'))
-            exit()
