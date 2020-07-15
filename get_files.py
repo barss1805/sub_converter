@@ -14,5 +14,5 @@ input_file = easygui.diropenbox()
 # получаем пути ко всем файлам в папке
 for root, dirs, files in os.walk(input_file):
     for name in files:
-        # if name.endswith(".srt"):
-        print(os.path.join(root, name))
+        if name.endswith(".srt"):
+            print(os.path.join(root, name))
