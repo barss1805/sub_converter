@@ -1,5 +1,8 @@
-import easygui
 import os
+
+import easygui
+
+import read_file
 
 # call the window for selecting a folder with files
 # вызываем окно выбора папки с файлами
@@ -13,3 +16,5 @@ for root, dirs, files in os.walk(input_file):
         if name.endswith(".srt"):
             # print(os.path.join(root, name))
             _path = os.path.join(root, name)
+            print(name)
+            read_file.read_file(_path, name)
