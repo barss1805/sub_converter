@@ -8,13 +8,13 @@ import read_file
 # вызываем окно выбора папки с файлами
 input_file = easygui.diropenbox()
 
-
 # get the paths to all files in the folder
 # получаем пути ко всем файлам в папке
 for root, dirs, files in os.walk(input_file):
     for name in files:
         if name.endswith(".srt"):
             # print(os.path.join(root, name))
-            _path = os.path.join(root, name)
-            print(name)
-            read_file.read_file(_path, name)
+            pas_for_write = os.path.join(root) + "\\"
+            full_path = os.path.join(root, name)
+            print(full_path)
+            read_file.read_file(full_path, pas_for_write, name)
