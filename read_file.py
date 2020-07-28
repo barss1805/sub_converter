@@ -16,5 +16,4 @@ def read_file(data, name):
                 out_text = translator.translate(line, src='en', dest='ru').text + "\n"
                 write_file.create_and_write_file(name, out_text)
                 i = 1
-
     exit()
