@@ -13,8 +13,7 @@ input_file = easygui.diropenbox()
 for root, dirs, files in os.walk(input_file):
     for name in files:
         if name.endswith(".srt"):
-            # print(os.path.join(root, name))
             pas_for_write = os.path.join(root) + "\\"
+            print(os.path.join(root, name))
             full_path = os.path.join(root, name)
-            print(full_path)
             read_file.read_file(full_path, pas_for_write, name)
