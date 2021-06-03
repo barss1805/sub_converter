@@ -1,12 +1,12 @@
 import os
 import io
+from posixpath import join
 import re
 
 import easygui
 import conf as config
 from progress.bar import IncrementalBar
 
-from datetime import datetime
 from deep_translator import GoogleTranslator
 
 
@@ -33,51 +33,35 @@ def handler_line(line):
     return translated_line(line)
 
 
-def counter_line(file):
+def counter_line_in_file(file):
     len_for_progress = 0
     with open(file) as f:
         len_for_progress = sum(1 for _ in f)
     return len_for_progress
 
 
-def counter_files(select_dirs):
-    count_files = 0
-    for root, dirs, files in os.walk(select_dirs):
-        for name in files:
-            if name.endswith(f".{config.input_lang}.{config.subtitle_extention}"):
-                count_files +=1
-    return count_files
+def read_write(read_file):
+    write_name = create_name(read_file)
+    if not os.path.isfile(write_name):
+        with io.open(read_file, 'r', encoding='utf-8', errors='ignore') as rf:
+            with io.open(write_name, 'a', encoding='utf-8') as wf:
+                print(f"\nStart writing:\n {write_name}")
+                bar = IncrementalBar('Progress curet file', max = counter_line_in_file(read_file))
+                for line in rf:
+                    bar.next()
+                    wf.write(handler_line(line))
+                print(f"\nEnd writing:\n {write_name}")
+    else:
+        print(f"\nfile - {write_name} - already exists!" + "\n\n")
+                          
 
-def run():
+
+def main():
     input_file = easygui.diropenbox()
-    total_bar = IncrementalBar('TOTAL PROGRESS', max = counter_files(input_file))
     for root, dirs, files in os.walk(input_file):
         for name in files:
             if name.endswith(f".{config.input_lang}.{config.subtitle_extention}"):
-                write_name = create_name(name)
-                if not os.path.isfile(os.path.join(root, write_name)):
-                    with io.open(os.path.join(root, name), 'r', encoding='utf-8', errors='ignore') as rf:
-                        with io.open(os.path.join(root, write_name), 'a', encoding='utf-8') as wf:
-                            print(f"\nStart writing:\n {os.path.join(root, write_name)}")
-                            bar = IncrementalBar('Progress curet file', max = counter_line(os.path.join(root, name)))
-                            for line in rf:
-                                wf.write(handler_line(line))
-                                bar.next()
-                        bar.finish()
-                else:
-                    print(f"\nfile - {write_name} - already exists!" + "\n\n")
-                total_bar.next()
-    total_bar.finish()
-
-                
-                
-
-def main():
-    start = datetime.now()
-    print("*" * 50)
-    run()
-    print("*" * 50)
-    print("Program running time - " + str(datetime.now() - start))
+                read_write(join(root,name)) 
 
 
 if __name__ == '__main__':
